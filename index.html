@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Invitación Alucinante! Cumpleaños de Georgina</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Estilos para el ambiente nocturno y mágico */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(170deg, #0d1b2a, #1b263b, #415a77);
+            color: #e0e1dd;
+            min-height: 100vh;
+            overflow: hidden; /* Evita el scroll */
+            position: relative;
+        }
+
+        .font-pacifico {
+            font-family: 'Pacifico', cursive;
+        }
+
+        /* Contenedor de estrellas */
+        #star-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 4s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.5; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Tarjeta de invitación flotante */
+        .invitation-container {
+            perspective: 1000px;
+            z-index: 10;
+        }
+        
+        .invitation-card {
+            background: rgba(13, 27, 42, 0.6); /* Color de fondo oscuro y semitransparente */
+            backdrop-filter: blur(12px) saturate(150%);
+            -webkit-backdrop-filter: blur(12px) saturate(150%);
+            border: 1px solid rgba(224, 225, 221, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease-out;
+            transform-style: preserve-3d;
+            animation: float 8s ease-in-out infinite, fadeIn 1.5s ease-out;
+        }
+        
+        @keyframes float {
+            0% { transform: translateZ(0) rotateX(5deg) rotateY(0deg); }
+            50% { transform: translateZ(-5px) translateY(-10px) rotateX(5deg) rotateY(2deg); }
+            100% { transform: translateZ(0) rotateX(5deg) rotateY(0deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(50px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Stitch asomándose */
+        #stitch-peeking {
+            position: absolute;
+            bottom: -20px;
+            right: -80px;
+            width: 250px;
+            transform: rotate(10deg);
+            transition: transform 0.3s ease-out;
+            z-index: 20;
+            animation: peek-in 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            opacity: 0;
+        }
+
+        @keyframes peek-in {
+            from { transform: translateX(100px) translateY(50px) rotate(20deg) scale(0.5); opacity: 0;}
+            to { transform: translateX(0) translateY(0) rotate(10deg) scale(1); opacity: 1;}
+        }
+
+        /* Siluetas de palmeras */
+        .palm-tree {
+            position: fixed;
+            bottom: -20px;
+            width: 350px;
+            z-index: 5;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+        .palm-left {
+            left: -50px;
+        }
+        .palm-right {
+            right: -50px;
+            transform: scaleX(-1);
+        }
+
+        /* Canvas para el confeti */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-4">
+
+    <div id="star-container"></div>
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Decoración de fondo -->
+    <img src="https://svgshare.com/i/18At.svg" alt="" class="palm-tree palm-left">
+    <img src="https://svgshare.com/i/18At.svg" alt="" class="palm-tree palm-right">
+
+    <!-- Contenedor principal de la invitación -->
+    <div class="invitation-container relative w-full max-w-lg">
+        <div id="invitationCard" class="invitation-card rounded-3xl p-8 md:p-10 text-center relative">
+            
+            <!-- Sección de Texto -->
+            <div class="text-white">
+                <h2 class="font-pacifico text-4xl md:text-5xl text-cyan-300 mb-4" style="text-shadow: 0 0 10px #06b6d4;">¡Aloha!</h2>
+                <h1 class="text-xl font-semibold mb-4">Estás invitado a celebrar el cumpleaños de</h1>
+                <p class="font-pacifico text-6xl md:text-7xl text-white my-4 leading-tight" style="text-shadow: 0 0 15px #ffffff, 0 0 25px #0ea5e9;">Georgina</p>
+                <p class="text-2xl font-bold mt-4 mb-8">¡Cumple 29 años!</p>
+                
+                <div class="border-t-2 border-dashed border-cyan-400 opacity-50 my-6"></div>
+
+                <div class="space-y-4 text-left mx-auto max-w-sm text-lg">
+                    <!-- Fecha -->
+                    <div class="flex items-center space-x-4">
+                        <svg class="w-7 h-7 text-cyan-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <div>
+                            <p class="font-bold">Fecha:</p>
+                            <p>Viernes, 20 de Junio de 2025</p>
+                        </div>
+                    </div>
+                    <!-- Hora -->
+                    <div class="flex items-center space-x-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-cyan-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <div>
+                            <p class="font-bold">Hora de llegada:</p>
+                            <p>5:30 PM (¡Puntual!)</p>
+                        </div>
+                    </div>
+                    <!-- Lugar -->
+                    <div class="flex items-center space-x-4">
+                        <svg class="w-7 h-7 text-cyan-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        <div>
+                            <p class="font-bold">Lugar:</p>
+                            <p>Casa de Flor</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mensaje de Sorpresa -->
+                <div class="mt-6 p-4 bg-yellow-400/20 border-l-4 border-yellow-300 rounded-r-lg max-w-sm mx-auto">
+                     <div class="flex items-start space-x-3">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <p class="text-yellow-200 font-semibold text-left text-sm">¡La fiesta es sorpresa! Por favor, llega a tiempo para recibir a Georgina juntos.</p>
+                     </div>
+                </div>
+
+                <div class="mt-8">
+                    <button id="partyButton" class="bg-cyan-400 hover:bg-cyan-300 text-gray-900 font-bold py-3 px-8 rounded-full shadow-lg shadow-cyan-500/30 transform hover:scale-105 transition-all duration-300 text-lg">
+                        ¡Activar Fiesta!
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stitch -->
+        <a href="https://i.postimg.cc/cJSTmc95/imagen-2025-06-10-144810021.png" target="_blank" rel="noopener noreferrer">
+            <img id="stitchPeeking" src="https://i.postimg.cc/cJSTmc95/imagen-2025-06-10-144810021.png" alt="Stitch saludando">
+        </a>
+    </div>
+
+    <!-- Librería para la animación de confeti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Generador de estrellas ---
+            const starContainer = document.getElementById('star-container');
+            const numStars = 150;
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 3 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 4}s`;
+                starContainer.appendChild(star);
+            }
+
+            // --- Efecto Parallax con el ratón ---
+            const invitationCard = document.getElementById('invitationCard');
+            const stitch = document.getElementById('stitchPeeking');
+            document.body.addEventListener('mousemove', (e) => {
+                const { clientX, clientY } = e;
+                const { innerWidth, innerHeight } = window;
+                const moveX = (clientX - innerWidth / 2) / (innerWidth / 2);
+                const moveY = (clientY - innerHeight / 2) / (innerHeight / 2);
+                
+                // Mueve la tarjeta
+                invitationCard.style.transform = `translateY(-5px) rotateY(${moveX * 5}deg) rotateX(${-moveY * 5}deg)`;
+                
+                // Mueve a Stitch un poco más
+                stitch.style.transform = `translateX(${moveX * 15}px) translateY(${moveY * 10}px) rotate(10deg)`;
+            });
+
+            // --- Lógica del confeti ---
+            const partyButton = document.getElementById('partyButton');
+            const confettiCanvas = document.getElementById('confetti-canvas');
+            const myConfetti = confetti.create(confettiCanvas, {
+                resize: true,
+                useWorker: true
+            });
+
+            partyButton.addEventListener('click', () => {
+                const duration = 5 * 1000;
+                const animationEnd = Date.now() + duration;
+                
+                const tropicalColors = ['#06b6d4', '#22d3ee', '#a5f3fc', '#fef3c7', '#fde68a'];
+
+                (function frame() {
+                    myConfetti({
+                        particleCount: 5,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0 },
+                        colors: tropicalColors
+                    });
+                    myConfetti({
+                        particleCount: 5,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1 },
+                        colors: tropicalColors
+                    });
+
+                    if (Date.now() < animationEnd) {
+                        requestAnimationFrame(frame);
+                    }
+                }());
+            });
+        });
+    </script>
+</body>
+</html>
